@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./post.scss";
 import { useNavigate } from "react-router-dom";
 
-const PostCreatePage = () => {
-  const [type, setType] = useState("네편 답변");
+const PostCreatePage = ({ setPosts }) => {
+  const [content, setContent] = useState("네편 답변");
 
   const navigation = useNavigate();
   const goPostPageHandler = () => {
@@ -29,8 +29,8 @@ const PostCreatePage = () => {
               type="radio"
               name="postType"
               value="네편 답변"
-              checked={type === "네편 답변"}
-              onChange={(e) => setType(e.target.value)}
+              checked={content === "네편 답변"}
+              onChange={(e) => setContent(e.target.value)}
             />
             네편 답변
           </label>
@@ -39,8 +39,8 @@ const PostCreatePage = () => {
               type="radio"
               name="postType"
               value="네편 정보"
-              checked={type === "네편 정보"}
-              onChange={(e) => setType(e.target.value)}
+              checked={content === "네편 정보"}
+              onChange={(e) => setContent(e.target.value)}
             />
             네편 정보
           </label>

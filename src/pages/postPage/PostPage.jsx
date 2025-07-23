@@ -5,7 +5,8 @@ import PostItem from "./components/PostItem";
 import "./post.scss";
 import SegmentedControl from "./components/SegmentControl";
 
-const PostPage = () => {
+const PostPage = ({ posts, setPosts }) => {
+
   const navigation = useNavigate();
   const goDetailHandler = (id) => {
     navigation(`detail/${id}`);
@@ -15,6 +16,20 @@ const PostPage = () => {
   };
 
   const [selected, setSelected] = useState("네편 답변");
+
+  // useEffect(() => {
+    
+  //   const fetchPosts = async () => {
+  //     try {
+  //       const response = await axios.get("https://your-api-url.com/posts");
+  //       setPosts(response.data);
+  //     } catch (error) {
+  //       console.error("에러", error);
+  //     }
+  //   };
+
+  //   fetchPosts();
+  // }, []);
 
   return (
     <div>

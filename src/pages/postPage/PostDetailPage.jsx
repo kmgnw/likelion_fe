@@ -5,7 +5,7 @@ import "./post.scss";
 import EX from "../../assets/exPost.png";
 import CommentInput from "./components/CommentInput";
 
-const PostDetailPage = () => {
+const PostDetailPage = ({ posts }) => {
   const navigation = useNavigate();
   const goPostPageHandler = () => {
     navigation(`/post`);
