@@ -13,27 +13,27 @@ const PostDetailPage = () => {
 
   const [post, setPost] = useState(null);
 
-  useEffect(() => {
-    const postId = localStorage.getItem("postId");
-    console.log('postid는 ' + postId)
 
-    if (!postId) {
-      console.error("postId가 localStorage에 없습니다.");
-      return;
+  useEffect(()=>{
+    const postId = localStorage.getItem("postId");
+
+    const fetchPosts = async ()=>{
+      try{
+
+        const response = await axios.get(`http://43.202.217.156:8080/api/posting/${postId}`)
+
+        setPost(response.data.data);
+
+      }catch (error){
+        console.log('error');
+      }
     }
 
-    const fetchPost = async () => {
-      try {
-        const response = await axios.get(`http://43.202.217.156:8080/api/posting/${postId}`);
-        
-        setPost(response.data.data);
-      } catch (error) {
-        console.error("게시글 상세 조회 실패:", error);
-      }
-    };
+    fetchPosts();
 
-    fetchPost();
-  }, []);
+
+  }, [])
+
 
   if (!post) {
     return <div className="PostDetailConatiner">로딩 중...</div>;

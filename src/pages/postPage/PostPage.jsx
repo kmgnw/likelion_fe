@@ -9,32 +9,34 @@ import SegmentedControl from "./components/SegmentControl";
 const PostPage = ({ posts, setPosts }) => {
 
   const navigation = useNavigate();
-  const goDetailHandler = (id) => {
-    navigation(`detail/${id}`);
+  const goDetailHandler = () => {
+    // navigation(`detail`);
   };
   const goCreateHandler = () => {
     navigation(`create`);
   };
 
-  const [selected, setSelected] = useState("네편 답변");
+  useEffect(()=>{
 
-  useEffect(() => {
-    
     const fetchPosts = async () => {
-      try {
-        console.log('시작')
-        const response = await axios.get("http://43.202.217.156:8080/api/posting/list/1");
-        console.log(response.data);
-        setPosts(response.data.data);
-        console.log(posts);
+      try{
+        const response = await axios.get("http://43.202.217.156:8080/api/posting/list/1")
 
-      } catch (error) {
-        console.error("에러", error);
+        console.log(response.data.data)
+
+        setPosts(response.data.data);
+
+
+      } catch(error){
+          console.log("에러");
       }
-    };
+    }
 
     fetchPosts();
-  }, []);
+
+  }, [])
+
+  const [selected, setSelected] = useState("네편 답변");
 
   return (
     <div>
@@ -55,11 +57,11 @@ const PostPage = ({ posts, setPosts }) => {
       </div>
 
       <div className="PostItem-Container">
-        {posts.map((item, index) => (
+        {posts.map((e, i) => (
           <PostItem
-            key={index}
-            post={item}
-            onClick={() => goDetailHandler(item.id)}
+            key={i}
+            post={e}
+            onClick={() => goDetailHandler()}
           />
         ))}
       </div>

@@ -1,11 +1,16 @@
 import React from "react";
 import "../post.scss";
+import { useNavigate } from "react-router-dom";
 
 const PostItem = ({ post, onClick }) => {
 
+  const navigation = useNavigate();
+
   const handleClick = () => {
     localStorage.setItem("postId", post.id);
-    onClick();
+
+    navigation(`detail`);
+
   };
 
   return (

@@ -11,32 +11,28 @@ const PostCreatePage = ({ setPosts }) => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    try {
+    try{
 
       const data = {
         user_id: 1,
-        worksheet_id: 4,
-        title: title,
+        worksheet_id: 1,
+        title:title,
         content: content,
-        type: 1,
-      };
+        type: 1
+      }
 
       const response = await axios.post("http://43.202.217.156:8080/api/posting", data);
 
-      console.log("작성 성공:", response.data);
+      console.log(response);
 
-      
-      navigate("/post");
 
-      
-      // if (setPosts) {
-      //   setPosts((prev) => [response.data, ...prev]);
-      // }
-    } catch (error) {
-      console.error("게시글 작성 실패:", error);
-      alert("게시글 작성에 실패했습니다.");
+
+
+    }catch (error){
+
     }
-  };
+  }
+
 
   return (
     <div className="PostCreate">
@@ -92,7 +88,10 @@ const PostCreatePage = ({ setPosts }) => {
         </div>
       </div>
 
-      <button className="postCreateBtn" onClick={handleSubmit}>
+      <button
+      className="postCreateBtn"
+      onClick={handleSubmit}
+      >
         등록하기
       </button>
     </div>
