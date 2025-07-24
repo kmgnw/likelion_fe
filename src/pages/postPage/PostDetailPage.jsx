@@ -1,30 +1,55 @@
-import React from "react";
-import posts from "../../datas/posts.json";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./post.scss";
 import EX from "../../assets/exPost.png";
 import CommentInput from "./components/CommentInput";
 
-const PostDetailPage = ({ posts }) => {
-  const navigation = useNavigate();
+const PostDetailPage = () => {
+  const navigate = useNavigate();
   const goPostPageHandler = () => {
-    navigation(`/post`);
+    navigate(`/post`);
   };
 
-  const { id } = useParams();
-  const post = posts.find((p) => String(p.id) === String(id));
+  const [post, setPost] = useState(null);
+
+  useEffect(() => {
+    const postId = localStorage.getItem("postId");
+    console.log('postid는 ' + postId)
+
+    if (!postId) {
+      console.error("postId가 localStorage에 없습니다.");
+      return;
+    }
+
+    const fetchPost = async () => {
+      try {
+        const response = await axios.get(`http://43.202.217.156:8080/api/posting/${postId}`);
+        
+        setPost(response.data.data);
+      } catch (error) {
+        console.error("게시글 상세 조회 실패:", error);
+      }
+    };
+
+    fetchPost();
+  }, []);
+
+  if (!post) {
+    return <div className="PostDetailConatiner">로딩 중...</div>;
+  }
 
   return (
     <div className="PostDetailConatiner">
       <div className="PostDetailContent">
         <h2>Q. {post.title}</h2>
         <div className="userAndDate">
-          <div className="userText">{post.user}</div>
-          <div className="dateText">{post.date}</div>
+          <div className="userText">{post.user || "작성자"}</div>
+          <div className="dateText">{post.date || "날짜"}</div>
         </div>
         <div>{post.content}</div>
         .<br />.<br />.<br />.<br />.<br />
-        <img src={EX} />
+        <img src={EX} alt="example" />
       </div>
       <div className="buttonContainer">
         <button className="bookmarkButton">북마크</button>

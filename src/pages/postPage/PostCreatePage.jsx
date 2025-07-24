@@ -1,13 +1,41 @@
 import React, { useState } from "react";
 import "./post.scss";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const PostCreatePage = ({ setPosts }) => {
-  const [content, setContent] = useState("네편 답변");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [postType, setPostType] = useState("네편 답변");
 
-  const navigation = useNavigate();
-  const goPostPageHandler = () => {
-    navigation(`/post`);
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    try {
+
+      const data = {
+        user_id: 1,
+        worksheet_id: 4,
+        title: title,
+        content: content,
+        type: 1,
+      };
+
+      const response = await axios.post("http://43.202.217.156:8080/api/posting", data);
+
+      console.log("작성 성공:", response.data);
+
+      
+      navigate("/post");
+
+      
+      // if (setPosts) {
+      //   setPosts((prev) => [response.data, ...prev]);
+      // }
+    } catch (error) {
+      console.error("게시글 작성 실패:", error);
+      alert("게시글 작성에 실패했습니다.");
+    }
   };
 
   return (
@@ -19,6 +47,8 @@ const PostCreatePage = ({ setPosts }) => {
             type="text"
             placeholder="질문 제목을 입력해 주세요"
             className="titleInput"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
 
@@ -29,8 +59,8 @@ const PostCreatePage = ({ setPosts }) => {
               type="radio"
               name="postType"
               value="네편 답변"
-              checked={content === "네편 답변"}
-              onChange={(e) => setContent(e.target.value)}
+              checked={postType === "네편 답변"}
+              onChange={(e) => setPostType(e.target.value)}
             />
             네편 답변
           </label>
@@ -39,8 +69,8 @@ const PostCreatePage = ({ setPosts }) => {
               type="radio"
               name="postType"
               value="네편 정보"
-              checked={content === "네편 정보"}
-              onChange={(e) => setContent(e.target.value)}
+              checked={postType === "네편 정보"}
+              onChange={(e) => setPostType(e.target.value)}
             />
             네편 정보
           </label>
@@ -51,6 +81,8 @@ const PostCreatePage = ({ setPosts }) => {
           <textarea
             placeholder="질문 내용을 입력해 주세요"
             className="postTextarea"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         </div>
 
@@ -59,7 +91,8 @@ const PostCreatePage = ({ setPosts }) => {
           <div className="imageBox">+</div>
         </div>
       </div>
-      <button className="postCreateBtn" onClick={goPostPageHandler}>
+
+      <button className="postCreateBtn" onClick={handleSubmit}>
         등록하기
       </button>
     </div>

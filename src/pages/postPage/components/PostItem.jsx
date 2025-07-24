@@ -2,6 +2,12 @@ import React from "react";
 import "../post.scss";
 
 const PostItem = ({ post, onClick }) => {
+
+  const handleClick = () => {
+    localStorage.setItem("postId", post.id);
+    onClick();
+  };
+
   return (
     <div className="PostItem">
       <div
@@ -12,12 +18,12 @@ const PostItem = ({ post, onClick }) => {
         }}
       >
         <h4>Q. {post.title}</h4>
-        <p className="PostText">{post.date}</p>
+        <p className="PostText">{post.created_at}</p>
       </div>
 
       <div className="PostContent-Container">
         <p className="PostContent">{post.content}</p>
-        <button className="PostButon" onClick={onClick}>
+        <button className="PostButon" onClick={handleClick}>
           자세히 보기
         </button>
       </div>

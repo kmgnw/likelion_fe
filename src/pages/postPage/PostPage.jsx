@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import posts from "../../datas/posts.json";
 import { useNavigate } from "react-router-dom";
 import PostItem from "./components/PostItem";
@@ -17,19 +18,23 @@ const PostPage = ({ posts, setPosts }) => {
 
   const [selected, setSelected] = useState("네편 답변");
 
-  // useEffect(() => {
+  useEffect(() => {
     
-  //   const fetchPosts = async () => {
-  //     try {
-  //       const response = await axios.get("https://your-api-url.com/posts");
-  //       setPosts(response.data);
-  //     } catch (error) {
-  //       console.error("에러", error);
-  //     }
-  //   };
+    const fetchPosts = async () => {
+      try {
+        console.log('시작')
+        const response = await axios.get("http://43.202.217.156:8080/api/posting/list/1");
+        console.log(response.data);
+        setPosts(response.data.data);
+        console.log(posts);
 
-  //   fetchPosts();
-  // }, []);
+      } catch (error) {
+        console.error("에러", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
     <div>
